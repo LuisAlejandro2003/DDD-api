@@ -9,3 +9,9 @@ class EmailAlreadyInUse(DomainError):
 
 class UserNotFound(DomainError):
     default_message = "User not found"
+
+class InvalidEmail(DomainError):
+    default_message = "Invalid email"
+
+class InvalidUserName(DomainError):
+    default_message = "Invalid user name"

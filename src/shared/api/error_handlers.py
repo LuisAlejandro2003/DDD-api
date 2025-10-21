@@ -5,6 +5,8 @@ from users.domain.exceptions import (
     EmailAlreadyInUse,
     UserNotFound,
     DomainError,
+    InvalidEmail,
+    InvalidUserName,
 )
 
 def register_error_handlers(app: FastAPI) -> None:
@@ -20,6 +22,20 @@ def register_error_handlers(app: FastAPI) -> None:
         return JSONResponse(
             status_code=404,
             content={"detail": str(exc), "error": "user_not_found"},
+        )
+
+    @app.exception_handler(InvalidEmail)
+    async def invalid_email_handler(request: Request, exc: InvalidEmail):
+        return JSONResponse(
+            status_code=422,
+            content={"detail": str(exc), "error": "invalid_email"},
+        )
+
+    @app.exception_handler(InvalidUserName)
+    async def invalid_user_name_handler(request: Request, exc: InvalidUserName):
+        return JSONResponse(
+            status_code=422,
+            content={"detail": str(exc), "error": "invalid_user_name"},
         )
 
     # Fallback para otros errores de dominio
